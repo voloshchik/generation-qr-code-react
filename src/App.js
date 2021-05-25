@@ -1,25 +1,25 @@
-import logo from './logo.svg';
-import './App.css';
+import { Container, Card, CardContent, makeStyles } from '@material-ui/core'
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+  const classes = useStyles()
 
-export default App;
+  return (
+    <Container className={classes.conatiner}>
+      <Card>
+        <h2 className={classes.title}>Generation QR code </h2>
+        <CardContent></CardContent>
+      </Card>
+    </Container>
+  )
+}
+const useStyles = makeStyles((theme) => ({
+  conatiner: {
+    marginTop: 10,
+  },
+  title: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+}))
+export default App
