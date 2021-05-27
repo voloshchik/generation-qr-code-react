@@ -9,10 +9,13 @@ import {
 } from '@material-ui/core'
 
 import QRCode from 'qrcode'
-import { useState } from 'react'
+import { useRef, useState } from 'react'
+import QrReader from 'react-qr-reader'
 function App() {
   const [text, setText] = useState('')
   const [imageUrl, setImageUrl] = useState('')
+  const [scanResultfFile, setScanResultFile] = useState('')
+  const qrRef = useRef(null)
   const classes = useStyles()
 
   const generateQrCode = async () => {
@@ -24,10 +27,24 @@ function App() {
       console.log(error)
     }
   }
+
+  const handleErrorFile = (error) => {
+    console.log(error)
+  }
+
+  const handleScanFile = (result) => {
+    if (result) {
+      setScanResultFile(result)
+    }
+  }
+
+  const onScanFile = () => {
+    qrRef.current.openImageDialog()
+  }
   return (
     <Container className={classes.conatiner}>
       <Card>
-        <h2 className={classes.title}>Generation QR code </h2>
+        <h2 className={classes.title}>Генератор QR code </h2>
         <CardContent>
           <Grid container spacing={2}>
             <Grid item xl={4} lg={4} md={6} sm={12} xs={12}>
@@ -38,7 +55,7 @@ function App() {
                 variant='contained'
                 color='primary'
               >
-                Generate
+                Згенерировать
               </Button>
               <br />
               {imageUrl && (
@@ -47,7 +64,24 @@ function App() {
                 </a>
               )}
             </Grid>
-            <Grid item xl={4} lg={4} md={6} sm={12} xs={12}></Grid>
+            <Grid item xl={4} lg={4} md={6} sm={12} xs={12}>
+              <Button
+                className={classes.btn}
+                variant='contained'
+                color='secondary'
+                onClick={onScanFile}
+              >
+                Сканировать QR code
+              </Button>
+              <QrReader
+                ref={qrRef}
+                style={{ width: '100%' }}
+                onError={handleErrorFile}
+                legacyMode
+                onScan={handleScanFile}
+              />
+              <h3>Сканированный код:{scanResultfFile}</h3>
+            </Grid>
             <Grid item xl={4} lg={4} md={6} sm={12} xs={12}></Grid>
             <Grid item xl={4} lg={4} md={6} sm={12} xs={12}></Grid>
           </Grid>
