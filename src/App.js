@@ -15,6 +15,7 @@ function App() {
   const [text, setText] = useState('')
   const [imageUrl, setImageUrl] = useState('')
   const [scanResultfFile, setScanResultFile] = useState('')
+  const [scanResultWebCam, setResultWebCam] = useState('')
   const qrRef = useRef(null)
   const classes = useStyles()
 
@@ -40,6 +41,15 @@ function App() {
 
   const onScanFile = () => {
     qrRef.current.openImageDialog()
+  }
+
+  const handleErrorWebCam = (error) => {
+    console.log(error)
+  }
+  const handleScanWepCam = (result) => {
+    if (result) {
+      setResultWebCam(result)
+    }
   }
   return (
     <Container className={classes.conatiner}>
@@ -82,8 +92,16 @@ function App() {
               />
               <h3>Сканированный код:{scanResultfFile}</h3>
             </Grid>
-            <Grid item xl={4} lg={4} md={6} sm={12} xs={12}></Grid>
-            <Grid item xl={4} lg={4} md={6} sm={12} xs={12}></Grid>
+            <Grid item xl={4} lg={4} md={6} sm={12} xs={12}>
+              <h3> QR Code By Wep Cam</h3>
+              <QrReader
+                delay={300}
+                style={{ width: '100%' }}
+                onError={handleErrorWebCam}
+                onScan={handleScanWepCam}
+              />
+              <h3>Scaned QR code Web Cam code:{scanResultWebCam}</h3>
+            </Grid>
           </Grid>
         </CardContent>
       </Card>
